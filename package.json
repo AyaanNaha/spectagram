@@ -19,7 +19,8 @@
     "react-native-reanimated": "~2.14.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "@babel/plugin-transform-export-namespace-from": "^7.22.3"
   },
   "private": true
 }
