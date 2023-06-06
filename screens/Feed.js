@@ -11,7 +11,7 @@ export default class Feed extends React.Component {
     keyExtractor = (item, index) => index.toString();
 
     renderItem = ({ item: post }) => {
-        return <PostCard post={post}></PostCard>
+        return <PostCard post={post} navigation={this.props.navigation}></PostCard>
     }
 
     render() {
