@@ -44,12 +44,13 @@ const styles = StyleSheet.create({
         flex:0.2
     },
     profileImage:{
-        width:RFValue(30),
-        height:RFValue(30)
-    },
-    container: {
-      flex: 1
-    },
+      width:RFValue(50),
+      height:RFValue(50),
+      borderRadius:50
+  },
+  container: {
+    flex: 1,
+  },
     cardContainer: {
       margin: RFValue(13),
       backgroundColor: "#333",
@@ -63,12 +64,17 @@ const styles = StyleSheet.create({
     },
     authorContainer: {
       paddingLeft: RFValue(20),
-      justifyContent: "center"
+      justifyContent: "left",
+      flexDirection:"row",
+      padding:RFValue(10)
+    }, authorNameContainer:{
+      justifyContent:"center"
     },
     authorNameText: {
       fontSize: RFValue(18),
       flexDirection:"row",
-      color: "white"
+      color: "white",
+      textAlignVertical:"center"
     },
     captionText: {
      

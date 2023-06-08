@@ -1,7 +1,13 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { View, Image, Text, StyleSheet, } from 'react-native';
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { RFValue } from "react-native-responsive-fontsize";
 
 export default class PostScreen extends React.Component {
+
+  componentDidMount() {
+    console.log(this.props);
+  }
     render() {
         return (
             <View style={styles.container}>
@@ -11,14 +17,14 @@ export default class PostScreen extends React.Component {
                             <Image source={require("../assets/profile_img.png")} style={styles.profileImage}></Image>
                         </View>
                         <View style={styles.authorNameContainer}>
-                            <Text style={styles.authorNameText}>{this.props.post.author}</Text>
+                            <Text style={styles.authorNameText}>{this.props.route.params.author}</Text>
                         </View>
                     </View>
 
                     <Image source={require("../assets/post.jpeg")} style={styles.postImage}></Image>
                 
                     <View style={styles.captionContainer}>
-                        <Text style={styles.captionText}>{this.props.post.caption}</Text>
+                        <Text style={styles.captionText}>{this.props.route.params.caption}</Text>
                     </View>
 
                     <View style={styles.actionContainer}>
@@ -35,19 +41,23 @@ export default class PostScreen extends React.Component {
 
 const styles = StyleSheet.create({
     authorImageContainer:{
-        flex:0.2
+        flex:0.2,
+        margin:RFValue(10)
+        
     },
     profileImage:{
-        width:RFValue(30),
-        height:RFValue(30)
+        width:RFValue(50),
+        height:RFValue(50),
+        borderRadius:50
     },
     container: {
-      flex: 1
+      flex: 1,
     },
     cardContainer: {
       margin: RFValue(13),
       backgroundColor: "#333",
-      borderRadius: RFValue(20)
+      borderRadius: RFValue(20),
+      height:RFValue(500)
     },
     postImage: {
       resizeMode: "contain",
@@ -56,13 +66,17 @@ const styles = StyleSheet.create({
       height: RFValue(250)
     },
     authorContainer: {
-      paddingLeft: RFValue(20),
-      justifyContent: "center"
+      flexDirection:"row",
+      
+    },
+    authorNameContainer:{
+      justifyContent:"center"
     },
     authorNameText: {
       fontSize: RFValue(18),
       flexDirection:"row",
-      color: "white"
+      color: "white",
+      textAlignVertical:"center"
     },
     captionText: {
      
