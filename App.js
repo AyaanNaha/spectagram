@@ -10,8 +10,8 @@ const Stack = createStackNavigator();
 const StackNav = () => {
   return (
     <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown:false, gestureEnabled:false}}>
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Register" component={RegisterScreen} />
+       <Stack.Screen name="Login" component={LoginScreen} /> 
+       <Stack.Screen name="Register" component={RegisterScreen} /> 
       <Stack.Screen name="Dashboard" component={DrawerNavigator} />
     </Stack.Navigator>
   )

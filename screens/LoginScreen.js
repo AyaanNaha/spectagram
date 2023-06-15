@@ -14,7 +14,6 @@ import {
 import * as firebase from 'firebase';
 
 import { RFValue } from "react-native-responsive-fontsize";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default class LoginScreen extends React.Component {
@@ -27,7 +26,7 @@ export default class LoginScreen extends React.Component {
         };
     }
 
-    signIn = async (email, password) => {
+    signIn = (email, password) => {
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(() => {
                 this.props.navigation.replace("Dashboard");
