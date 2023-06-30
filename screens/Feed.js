@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
-import { View, Text, StyleSheet, FlatList, SafeAreaView, Image } from 'react-native';
+import { View, Text, StyleSheet, FlatList, SafeAreaView, Image, Platform } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import PostCard from './PostCard';
 
