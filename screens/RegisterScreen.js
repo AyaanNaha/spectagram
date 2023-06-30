@@ -34,7 +34,14 @@ export default class RegisterScreen extends React.Component {
         .then((userCredential) => {
           console.log("made a user")
           Alert.alert('user registered!');
-          this.props.navigation.navigate("Login")
+          this.props.navigation.navigate("Login");
+          firebase.database().ref("/users/" + userCredential.user.uid)
+            .set({
+              email: userCredential.user.email,
+              first_name: firstName,
+              last_name: lastName,
+              current_theme: "dark"
+            })
         })
         .catch((error) => {
           console.log(error.message)

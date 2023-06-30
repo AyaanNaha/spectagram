@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { Ionicons } from '@expo/vector-icons';
+
 
 export default class PostScreen extends React.Component {
     render() {
