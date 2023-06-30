@@ -1,130 +1,125 @@
-import React, { Component } from "react";
+import * as React from 'react';
 import {
   View,
-  StyleSheet,
-  SafeAreaView,
-  Platform,
-  StatusBar,
+  Text,
   Image,
-  TextInput,
-  Alert,
   TouchableOpacity,
-  Text
-} from "react-native";
+  StyleSheet,
+  Alert,
+} from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
 import * as firebase from 'firebase';
 
-import { RFValue } from "react-native-responsive-fontsize";
-
-
 export default class LoginScreen extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: "",
-            password: "",
-            userSignedIn: false
-        };
-    }
-
-    signIn = (email, password) => {
-        firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(() => {
-                this.props.navigation.replace("Dashboard");
-            }).catch((error) => {
-                alert(error.message)
-            });
+  constructor() {
+    super();
+    this.state = {
+      email: '',
+      password: '',
     };
+  }
 
+  h=()=> {}
 
-    render() {
-        const { email, password } = this.state;
+  signIn = async (email, password) => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        this.props.navigation.replace('Dashboard');
+      })
+      .catch((error) => {
+        Alert.alert(error.message);
+      });
+  };
 
-        return (
-            <View style={styles.container}>
-                <SafeAreaView style={styles.droidSafeArea} />
+  render() {
+    return (
+      <View style={styles.container}>
+        <Image
+          source={require('../assets/logo.png')}
+          style={styles.logo}></Image>
+        <Text style={styles.titleText}>Spectagram</Text>
 
-                <Text style={styles.appTitleText}>Story Telling</Text>
-                <Image source={appIcon} style={styles.appIcon} />
+        <TextInput
+          style={styles.textInput}
+          onChangeText={(text) => this.setState({ email: text })}
+          placeholder="Enter Email"
+          placeholderTextColor={'#FFFFFF'}
+          autoFocus></TextInput>
 
-                <TextInput
-                    style={styles.textinput}
-                    onChangeText={text => this.setState({ email: text })}
-                    placeholder={"Enter Email"}
-                    placeholderTextColor={"#FFFFFF"}
-                    autoFocus
-                />
-                <TextInput
-                    style={[styles.textinput, { marginTop: 20 }]}
-                    onChangeText={text => this.setState({ password: text })}
-                    placeholder={"Enter Password"}
-                    placeholderTextColor={"#FFFFFF"}
-                    secureTextEntry
-                />
-                <TouchableOpacity
-                    style={[styles.button, { marginTop: 20 }]}
-                    onPress={() => this.signIn(this.state.email, this.state.password)}
-                >
-                    <Text style={styles.buttonText}>Login</Text>
-                </TouchableOpacity>
+        <TextInput
+          style={styles.textInput}
+          onChangeText={(text) => this.setState({ password: text })}
+          placeholder="Enter Password"
+          placeholderTextColor={'#FFFFFF'}
+          secureTextEntry></TextInput>
 
-                <TouchableOpacity onPress={() => this.props.navigation.navigate("Register")} style={styles.button}>
-                    <Text style={styles.buttonText}>Register</Text>
-                </TouchableOpacity>
+        <View style={{ marginTop: 30 }}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              this.signIn(this.state.email, this.state.password);
+            }}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
 
-            </View>
-        );
-    }
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate('Register')}>
+            <Text style={styles.buttonText}>Register</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: "#15193c",
-      alignItems: "center",
-      justifyContent: "center"
-    },
-    droidSafeArea: {
-      marginTop: Platform.OS === "android" ? StatusBar.currentHeight : RFValue(35)
-    },
-    appIcon: {
-      width: RFValue(200),
-      height: RFValue(200),
-      resizeMode: "contain",
-      marginBottom: RFValue(20)
-    },
-    appTitleText: {
-      color: "white",
-      textAlign: "center",
-      fontSize: RFValue(40),
-      fontFamily: "Bubblegum-Sans",
-      marginBottom: RFValue(20)
-    },
-    textinput: {
-      width: RFValue(250),
-      height: RFValue(50),
-      padding: RFValue(10),
-      borderColor: "#FFFFFF",
-      borderWidth: RFValue(4),
-      borderRadius: RFValue(10),
-      fontSize: RFValue(20),
-      color: "#FFFFFF",
-      backgroundColor: "#15193c",
-      fontFamily: "Bubblegum-Sans"
-    },
-    button: {
-      width: RFValue(250),
-      height: RFValue(50),
-      flexDirection: "row",
-      justifyContent: "space-evenly",
-      alignItems: "center",
-      borderRadius: RFValue(30),
-      backgroundColor: "white",
-      marginBottom: RFValue(20)
-    },
-    buttonText: {
-      fontSize: RFValue(24),
-      color: "#15193c",
-      fontFamily: "Bubblegum-Sans"
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#010101',
+  },
+  textInput: {
+    width: 250,
+    height: 50,
+    padding: 10,
+    borderColor: '#FFF',
+    borderWidth: 4,
+    borderRadius: 10,
+    fontSize: 20,
+    backgroundColor: '#AEAEAE',
+    marginTop: 20,
+    alignSelf: 'center',
+  },
+  logo: {
+    marginTop: 50,
+    width: 80,
+    height: 80,
+    alignSelf: 'center',
+  },
+  titleText: {
+    color: 'white',
+    fontSize: 50,
+    alignSelf: 'center',
+    marginTop: 30,
+    marginBottom: 50,
+  },
+  button: {
+    backgroundColor: '#0099FF',
+    width: 150,
+    height: 50,
+    alignContent: 'center',
+    alignSelf: 'center',
+    borderRadius: 10,
+    marginTop: 20,
+    padding: 10,
+  },
+  buttonText: {
+    color: '#FFF',
+    fontSize: 25,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+  },
 });
-  

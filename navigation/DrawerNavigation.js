@@ -6,7 +6,7 @@ const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
     return (
-        <Drawer.Navigator>
+        <Drawer.Navigator screenOptions={{headerShown:false}}>
             <Drawer.Screen name="Home" component={StackNavigator}></Drawer.Screen>
             <Drawer.Screen name="Profile" component={Profile}></Drawer.Screen>
         </Drawer.Navigator>
