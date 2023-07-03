@@ -8,7 +8,7 @@ const StackNavigator = () => {
     return (
         <Stack.Navigator
             initialRouteName="Home"
-            screenOptins={{
+            screenOptions={{
                 headerShown:false
             }}
         >
