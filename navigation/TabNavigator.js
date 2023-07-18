@@ -10,25 +10,41 @@ import { StyleSheet } from 'react-native';
 const Tab = createMaterialBottomTabNavigator();
 
 export default class BottomTabNavigator extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            light_theme: false
-        };
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      light_theme: true,
+      isUpdated: false
+    };
+  }
 
-    fetchUser = () => {
-        let theme;
-        firebase.database().ref("/users/" + firebase.auth().currentUser.uid)
-        .on("value", (snapshot) => {
-            theme = snapshot.val().current_theme;
-            this.setState({ light_theme: theme === "light" })
-        })
-    }
+  renderFeed = props => {
+    return <Feed setUpdateToFalse={this.removeUpdated} {...props} />;
+  };
 
-    componentDidMount() {
-        this.fetchUser();
-    }
+  renderPost = props => {
+    return <CreatePost setUpdateToTrue={this.changeUpdated} {...props} />;
+  };
+
+  changeUpdated = () => {
+    this.setState({ isUpdated: true });
+  };
+
+  removeUpdated = () => {
+    this.setState({ isUpdated: false });
+  };
+
+  componentDidMount() {
+    let theme;
+    firebase
+      .database()
+      .ref("/users/" + firebase.auth().currentUser.uid)
+      .on("value", function(snapshot) {
+        theme = snapshot.val().current_theme;
+      });
+    this.setState({ light_theme: theme === "light" ? true : false });
+  }
+
     
     render() {
         return (
@@ -62,12 +78,12 @@ export default class BottomTabNavigator extends React.Component {
           >
             <Tab.Screen
               name="Feed"
-              component={Feed}
+              component={this.renderFeed}
               options={{ unmountOnBlur: true }}
             />
             <Tab.Screen
               name="Create Post"
-              component={CreatePost}
+              component={this.renderPost}
               options={{ unmountOnBlur: true }}
             />
           </Tab.Navigator>

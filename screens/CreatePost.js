@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TextInput, KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TextInput, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { RFValue } from 'react-native-responsive-fontsize';
 import firebase from 'firebase';
@@ -12,6 +12,30 @@ export default class CreatePost extends React.Component {
       caption: '',
       dropdownHeight: 40,
       light_theme: false
+    }
+  }
+
+  async addPost() {
+    if(this.state.caption) {
+      let postData = {
+        preview_image: this.state.previewImage,
+        caption: this.state.caption,
+        author: firebase.auth().currentUser.displayName,
+        created_on: new Date(),
+        author_uid: firebase.auth().currentUser.uid,
+        likes:0
+      };
+
+      await firebase.database().ref("/posts/" + Math.random().toString(36).slice(2))
+        .set(postData).then(function (snapshot) {});
+        this.props.setUpdateToTrue();
+        this.props.navigation.navigate("Feed");
+    } else {
+      alert(
+        "All fields are required!",
+        [{text: "OK", onPress: () => console.log("Ok Pressed")}],
+        {cancelable: false}
+      )
     }
   }
 
@@ -55,7 +79,7 @@ export default class CreatePost extends React.Component {
           </View>
         </View>
 
-        <ScrollView>
+        <ScrollView >
           <Image
             source={preview_images[this.state.previewImage]}
             style={styles.previewImage}></Image>
@@ -109,6 +133,13 @@ export default class CreatePost extends React.Component {
             placeholder={'Caption'}
             placeholderTextColor={this.state.light_theme ? "black" : "white"}
           />
+
+          <TouchableOpacity
+           style={[styles.button, { marginTop: 20 }]}
+           onPress={() => {this.addPost()}}
+          >
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
 
         </ScrollView>
 
@@ -190,5 +221,20 @@ const styles = StyleSheet.create({
     flex: 0.7,
     flexDirection: 'row',
     marginTop: 30,
+  },
+  button: {
+    width: "50%",
+    height: 50,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30,
+    backgroundColor: 'white',
+    marginBottom: 20,
+    marginLeft:"25%"
+  },
+  buttonText: {
+    fontSize: 24,
+    color: '#15193c',
   },
 });

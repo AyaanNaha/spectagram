@@ -5,10 +5,13 @@ import { RFValue } from "react-native-responsive-fontsize";
 import firebase from 'firebase';
 
 export default class PostCard extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      light_theme: false
+      light_theme: false,
+      post_id: this.props.post.key,
+      post_date: this.props.post.value,
+      author: ""
     };
   }
 
@@ -23,9 +26,21 @@ export default class PostCard extends React.Component {
 
   componentDidMount() {
     this.fetchUser();
+    firebase.database().ref("/users/" + this.props.post.value.author_uid).on("value", (snapshot) => {
+      this.setState({author: snapshot.val().first_name + " " + snapshot.val().last_name});
+    })
   }
 
   render() {
+    let images = {
+      image_1: require("../assets/image_1.jpg"),
+      image_2: require("../assets/image_2.jpg"),
+      image_3: require("../assets/image_3.jpg"),
+      image_4: require("../assets/image_4.jpg"),
+      image_5: require("../assets/image_5.jpg"),
+      image_6: require("../assets/image_6.jpg"),
+      image_7: require("../assets/image_7.jpg"),
+  }
     return (
       <TouchableOpacity style={styles.container} onPress={() => {
         this.props.navigation.navigate("PostScreen", post = this.props.post)
@@ -37,20 +52,20 @@ export default class PostCard extends React.Component {
                 <Image source={require("../assets/profile_img.png")} style={styles.profileImage}></Image>
               </View>
               <View style={styles.authorNameContainer}>
-                <Text style={this.state.light_theme ? styles.authorNameTextLight :styles.authorNameText}>{this.props.post.author}</Text>
+                <Text style={this.state.light_theme ? styles.authorNameTextLight :styles.authorNameText}>{this.state.author}</Text>
               </View>
             </View>
 
-            <Image source={require("../assets/post.jpeg")} style={styles.postImage}></Image>
+            <Image source={images[this.props.post.value.preview_image]} style={styles.postImage}></Image>
 
             <View style={styles.captionContainer}>
-              <Text style={this.state.light_theme ? styles.captionTextLight : styles.captionText}>{this.props.post.caption}</Text>
+              <Text style={this.state.light_theme ? styles.captionTextLight : styles.captionText}>{this.props.post.value.caption}</Text>
             </View>
 
             <View style={styles.actionContainer}>
               <View style={styles.likeButton}>
                 <Ionicons name={"heart"} size={RFValue(30)} color={"white"}></Ionicons>
-                <Text style={styles.likeText}>12k</Text>
+                <Text style={styles.likeText}>{this.props.post.value.likes}</Text>
               </View>
             </View>
           </View>

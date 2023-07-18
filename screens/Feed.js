@@ -11,7 +11,8 @@ export default class Feed extends React.Component {
     constructor() {
         super();
         this.state = {
-            light_theme: false
+            light_theme: false,
+            posts: {}
         };
     }
 
@@ -24,8 +25,35 @@ export default class Feed extends React.Component {
         })
     }
 
+    fetchPosts() {
+        firebase
+      .database()
+      .ref("/posts/")
+      .on(
+        "value",
+        snapshot => {
+          let posts = [];
+          if (snapshot.val()) {
+            Object.keys(snapshot.val()).forEach(function (key) {
+                posts.push({
+                key: key,
+                value: snapshot.val()[key]
+              });
+            });
+          }
+          this.setState({ posts: posts });
+          this.props.setUpdateToFalse();
+        },
+        function (errorObject) {
+          console.log("The read failed: " + errorObject.code);
+        }
+      );
+    }
+
     componentDidMount() {
         this.fetchUser();
+        this.fetchPosts();
+        console.log(this.state.posts)
     }
 
     keyExtractor = (item, index) => index.toString();
@@ -59,7 +87,7 @@ export default class Feed extends React.Component {
                 <View style={styles.cardContainer}>
                     <FlatList
                         keyExtractor={this.keyExtractor}
-                        data={posts}
+                        data={this.state.posts}
                         renderItem={this.renderItem}
                     />
                 </View>
